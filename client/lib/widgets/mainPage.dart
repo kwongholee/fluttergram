@@ -1,11 +1,13 @@
+import 'package:client/stores/userProvider.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/rendering.dart';
+import 'package:provider/provider.dart';
 
 import 'feed.dart';
 
 class Mainpage extends StatefulWidget {
-  const Mainpage({Key? key, this.setD}) : super(key: key);
-  final setD;
+  const Mainpage({Key? key}) : super(key: key);
+
   @override
   State<Mainpage> createState() => _HomeState();
 }
@@ -18,9 +20,9 @@ class _HomeState extends State<Mainpage> {
     super.initState();
     scroll.addListener(() {
       if(scroll.position.userScrollDirection == ScrollDirection.reverse) {
-        widget.setD("down");
+        context.watch<userProvider>().changeDirection("down");
       } else {
-        widget.setD("up");
+        context.watch<userProvider>().changeDirection("up");
       }
     });
   }
