@@ -1,4 +1,5 @@
 import 'package:client/stores/userProvider.dart';
+import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/rendering.dart';
 import 'package:provider/provider.dart';
@@ -11,14 +12,19 @@ class DirectMessageList extends StatefulWidget {
 }
 
 class _DirectMessageListState extends State<DirectMessageList> {
-  var contactList = ["이광호", "김민아", "이서진", "황혁수", "장영주"];
+  var contactList = [{"chatroom": "1", "account": "이광호"}, {"chatroom": "2", "account": "김민아"}, {"chatroom": "3", "account": "이서진"}, {"chatroom": "4", "account": "황혁수"}];
+  void addContactList(v) {
+    setState(() {
+      contactList.add(v);
+    });
+  }
 
   @override
   Widget build(BuildContext context) {
     return Scaffold(
       floatingActionButton: FloatingActionButton(onPressed: () {
-        setState(() {
-          contactList.add("호두");
+        showDialog(context: context, builder: (context) {
+          return addChatDialog(addContactList: addContactList);
         });
       }, child: Icon(Icons.add),),
       appBar: AppBar(
@@ -54,9 +60,43 @@ class _ContactState extends State<Contact> {
         crossAxisAlignment: CrossAxisAlignment.center,
         children: [
           Icon(Icons.account_circle),
-          Text(widget.contactList[widget.num])
+          Column(mainAxisAlignment: MainAxisAlignment.start, crossAxisAlignment: CrossAxisAlignment.start, children: [
+            Text(widget.contactList[widget.num]["chatroom"]),
+            Text(widget.contactList[widget.num]["account"])
+          ],)
         ],
       ),
     );
   }
 }
+
+class addChatDialog extends StatefulWidget {
+  const addChatDialog({Key? key, this.addContactList}) : super(key: key);
+  final addContactList;
+
+  @override
+  State<addChatDialog> createState() => _addChatDialogState();
+}
+
+class _addChatDialogState extends State<addChatDialog> {
+  String chatroomName = "";
+  String accountName = "";
+
+  @override
+  Widget build(BuildContext context) {
+    return Dialog(child: Container(
+      padding: EdgeInsets.all(30),
+      width: 300,
+      height: 300,
+      child: Column(children: [
+        TextField(onChanged: (e) {chatroomName = e;}, decoration: InputDecoration(labelText: "채팅방명")),
+        TextField(onChanged: (e) {accountName = e;}, decoration: InputDecoration(labelText: "계정명")),
+        TextButton(onPressed: () {
+          widget.addContactList({"chatroom": chatroomName, "account": accountName});
+          Navigator.pop(context);
+        }, child: Text("add"))
+      ],),
+    ));
+  }
+}
+
