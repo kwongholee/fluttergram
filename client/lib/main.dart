@@ -33,9 +33,6 @@ class _MyAppState extends State<MyApp> {
   @override
   Widget build(BuildContext context) {
     return context.watch<userProvider>().id == "" || context.watch<userProvider>().pw == "" ? Login()
-        : context.watch<userProvider>().tab == 0 ? Home()
-        : context.watch<userProvider>().tab == 1 ? Search()
-        : context.watch<userProvider>().tab == 2 ? Profile()
-        : DirectMessageList();
+        : [Home(), Search(), Profile(), DirectMessageList()][context.watch<userProvider>().tab];
   }
 }
