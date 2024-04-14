@@ -7,11 +7,17 @@ require('dotenv').config();
 var express_1 = __importDefault(require("express"));
 var app = (0, express_1.default)();
 var cors = require('cors');
+var connectDB = require('./model/connectDB');
 app.use(cors());
 app.use(express_1.default.urlencoded({ extended: true }));
 app.listen(process.env.SERVER_PORT, function () {
+    connectDB;
     console.log('Server is running...');
 });
+app.use('/info', require('./routes/info'));
+app.use('/user', require('./routes/user'));
+app.use('/feed', require('./routes/feed'));
+app.use('/message', require('./routes/message'));
 app.get('/', function (req, res) {
     res.send("mainpage");
 });
