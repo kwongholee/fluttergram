@@ -29,7 +29,7 @@ class _DirectMessageListState extends State<DirectMessageList> {
       }, child: Icon(Icons.add),),
       appBar: AppBar(
         leading: IconButton(onPressed: (){
-          context.read<userProvider>().changeTab(0);
+          Navigator.pop(context);
         }, icon: Icon(Icons.arrow_back)),
         title: Text("Fluttergram Direct Message"),
       ),
