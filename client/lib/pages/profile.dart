@@ -1,3 +1,4 @@
+import 'package:client/widgets/profileHeader.dart';
 import 'package:flutter/material.dart';
 import 'package:client/stores/userProvider.dart';
 import 'package:provider/provider.dart';
@@ -8,7 +9,12 @@ class Profile extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      body: Row(),
+      appBar: AppBar(title: Text("Profile Page"), actions: [IconButton(onPressed: () {}, icon: Icon(Icons.settings))]),
+      body: CustomScrollView(slivers: [
+        SliverToBoxAdapter(child: ProfileHeader()),
+        SliverGrid(delegate: SliverChildBuilderDelegate((c,i) => Container(child: Image.asset('assets/jiwoo.jpg')), childCount: 4),
+            gridDelegate: SliverGridDelegateWithFixedCrossAxisCount(crossAxisCount: 3))
+      ]),
       bottomNavigationBar: context.watch<userProvider>().direction == "up" ? BottomNavigationBar(
         showSelectedLabels: false,
         showUnselectedLabels: false,
