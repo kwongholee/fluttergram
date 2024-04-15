@@ -19,10 +19,10 @@ class _HomeState extends State<Mainpage> {
   void initState() {
     super.initState();
     scroll.addListener(() {
-      if(scroll.position.userScrollDirection == ScrollDirection.reverse) {
-        context.watch<userProvider>().changeDirection("down");
+      if (scroll.position.userScrollDirection == ScrollDirection.reverse) {
+        context.read<userProvider>().changeDirection("down");
       } else {
-        context.watch<userProvider>().changeDirection("up");
+        context.read<userProvider>().changeDirection("up");
       }
     });
   }
@@ -30,9 +30,13 @@ class _HomeState extends State<Mainpage> {
   @override
   Widget build(BuildContext context) {
     return Container(
-      child: ListView.builder(itemCount: 3, controller: scroll, itemBuilder: (i,c) {
-        return Feed();
-      },),
+      child: ListView.builder(
+        itemCount: 3,
+        controller: scroll,
+        itemBuilder: (i, c) {
+          return Feed();
+        },
+      ),
     );
   }
 }

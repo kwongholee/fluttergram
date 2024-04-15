@@ -10,6 +10,7 @@ class Feed extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Container(
+        padding: EdgeInsets.all(10),
         child: Column(crossAxisAlignment: CrossAxisAlignment.start, children: [
           FeedHeader(writer: writer),
           Image.asset('assets/jiwoo.jpg'),
@@ -18,10 +19,9 @@ class Feed extends StatelessWidget {
             Icon(Icons.send)
           ]),
           Text("좋아요: ${like.toString()}"),
-          Text("작성자: ${writer}"),
-          Text("${content}")
+          Text(content)
         ],
-      ), padding: EdgeInsets.all(10),
+      )
     );
   }
 }
@@ -32,11 +32,11 @@ class FeedHeader extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return Container(child: Row(
+    return Container(padding: EdgeInsets.fromLTRB(0, 0, 0, 10), child: Row(
       mainAxisAlignment: MainAxisAlignment.spaceBetween, children: [
         Row(children: [Icon(Icons.account_circle), Text("${writer}")]),
         Icon(Icons.more_vert)
-      ],), padding: EdgeInsets.fromLTRB(0, 0, 0, 10),
+      ],)
     );
   }
 }
