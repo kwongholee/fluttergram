@@ -1,8 +1,10 @@
-import 'package:client/pages/directMessageList.dart';
-import 'package:client/pages/home.dart';
-import 'package:client/pages/profile.dart';
-import 'package:client/pages/register.dart';
-import 'package:client/pages/search.dart';
+import 'package:client/pages/directmessage/directMessageList.dart';
+import 'package:client/pages/home/home.dart';
+import 'package:client/pages/profile/profile.dart';
+import 'package:client/pages/login/register.dart';
+import 'package:client/pages/profile/settingProfileEdit.dart';
+import 'package:client/pages/profile/settings.dart';
+import 'package:client/pages/search/search.dart';
 import 'package:client/styles/main.style.dart';
 import 'package:flutter/material.dart';
 import 'package:image_picker/image_picker.dart';
@@ -11,7 +13,7 @@ import 'dart:io';
 import 'dart:convert';
 
 import './stores/userProvider.dart';
-import './pages/login.dart';
+import 'pages/login/login.dart';
 import 'widgets/mainPage.dart';
 import '../styles/main.style.dart';
 
@@ -22,6 +24,8 @@ void main() {
         '/register': (c) => Register(),
         '/search': (c) => Search(),
         '/profile': (c) => Profile(),
+        '/profile/settings': (c) => Settings(),
+        '/profile/settings/modification': (c) => ProfileEdit(),
         '/directmessage/list': (c) => DirectMessageList()
       },
       theme: theme,
