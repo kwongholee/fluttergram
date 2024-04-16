@@ -1,6 +1,6 @@
-import 'package:client/pages/home.dart';
-import 'package:client/pages/profile.dart';
-import 'package:client/pages/search.dart';
+import 'package:client/pages/home/home.dart';
+import 'package:client/pages/profile/profile.dart';
+import 'package:client/pages/search/search.dart';
 import 'package:client/stores/userProvider.dart';
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';

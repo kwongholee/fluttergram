@@ -79,7 +79,7 @@ class _RegisterState extends State<Register> {
           ]),),
           TextButton(onPressed: () {
             if(id == "" || pw == "" || name == "" || introduce == "") {
-              showDialog(context: context, builder: (context) => noticeDialog());
+              showDialog(context: context, builder: (context) => NoticeDialog());
             }
             else {
               context.read<userProvider>().tryLogin(id, pw);
@@ -92,8 +92,8 @@ class _RegisterState extends State<Register> {
   }
 }
 
-class noticeDialog extends StatelessWidget {
-  const noticeDialog({Key? key}) : super(key: key);
+class NoticeDialog extends StatelessWidget {
+  const NoticeDialog({Key? key}) : super(key: key);
 
   @override
   Widget build(BuildContext context) {

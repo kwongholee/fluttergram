@@ -1,10 +1,10 @@
-import 'package:client/pages/register.dart';
+import 'package:client/pages/login/register.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/widgets.dart';
 import 'package:provider/provider.dart';
 
-import '../stores/userProvider.dart';
+import '../../stores/userProvider.dart';
 
 class Login extends StatefulWidget {
   const Login({Key? key}) : super(key: key);

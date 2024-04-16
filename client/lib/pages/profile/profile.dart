@@ -10,7 +10,7 @@ class Profile extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      appBar: AppBar(title: Text("Profile Page"), actions: [IconButton(onPressed: () {}, icon: Icon(Icons.settings))]),
+      appBar: AppBar(title: Text("Profile Page"), actions: [IconButton(onPressed: () {Navigator.pushNamed(context, "/profile/settings");}, icon: Icon(Icons.settings))]),
       body: CustomScrollView(slivers: [
         SliverToBoxAdapter(child: ProfileHeader()),
         SliverGrid(delegate: SliverChildBuilderDelegate((c,i) => Container(child: Image.asset('assets/jiwoo.jpg')), childCount: 4),

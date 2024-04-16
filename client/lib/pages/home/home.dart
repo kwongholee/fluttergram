@@ -1,10 +1,10 @@
-import 'package:client/pages/directMessageList.dart';
+import 'package:client/pages/directmessage/directMessageList.dart';
 import 'package:client/stores/userProvider.dart';
 import 'package:client/widgets/footBar.dart';
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 
-import '../widgets/mainPage.dart';
+import '../../widgets/mainPage.dart';
 
 class Home extends StatefulWidget {
   const Home({Key? key}) : super(key: key);
