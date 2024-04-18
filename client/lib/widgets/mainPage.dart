@@ -1,3 +1,4 @@
+import 'package:client/stores/feedListProvider.dart';
 import 'package:client/stores/userProvider.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/rendering.dart';
@@ -31,11 +32,9 @@ class _HomeState extends State<Mainpage> {
   Widget build(BuildContext context) {
     return Container(
       child: ListView.builder(
-        itemCount: 3,
+        itemCount: context.watch<FeedListProvider>().feedList.length,
         controller: scroll,
-        itemBuilder: (i, c) {
-          return Feed();
-        },
+        itemBuilder: (c,i) {return Feed(feedNum: i);},
       ),
     );
   }

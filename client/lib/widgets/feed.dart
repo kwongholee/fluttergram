@@ -1,47 +1,44 @@
+import 'package:client/stores/feedListProvider.dart';
+import 'package:client/widgets/likeScreen.dart';
 import 'package:flutter/material.dart';
+import 'package:provider/provider.dart';
 
 class Feed extends StatefulWidget {
-  const Feed({Key? key}) : super(key: key);
+  const Feed({Key? key, this.feedNum}) : super(key: key);
+  final feedNum;
 
   @override
   State<Feed> createState() => _FeedState();
 }
 
 class _FeedState extends State<Feed> {
-  final writer = "이광호";
-  var like = 0;
   bool isPressedLike = false;
-  final content = "지우 개예뻐 미친~~";
 
   @override
   Widget build(BuildContext context) {
     return Container(
         padding: EdgeInsets.all(10),
         child: Column(crossAxisAlignment: CrossAxisAlignment.start, children: [
-          FeedHeader(writer: writer),
+          FeedHeader(writer: context.watch<FeedListProvider>().feedList[widget.feedNum]["writer"]),
           InkWell(onDoubleTap: () {setState(() {
             isPressedLike = !isPressedLike;
             if(isPressedLike) {
-              like++;
-            } else {
-              like--;
+              Navigator.push(context, MaterialPageRoute(builder: (context) => LikeScreen(isPressedLike: isPressedLike)));
             }
           });}, child: Image.asset('assets/jiwoo.jpg'),),
           Row(mainAxisAlignment: MainAxisAlignment.start, children: [
             IconButton(onPressed: () {
               setState(() {
                 isPressedLike = !isPressedLike;
-                if(isPressedLike) {
-                  like++;
-                } else {
-                  like--;
-                }
               });
+              if(isPressedLike) {
+                Navigator.push(context, MaterialPageRoute(builder: (context) => LikeScreen(isPressedLike: isPressedLike)));
+              }
             }, icon: isPressedLike ? Icon(Icons.favorite) : Icon(Icons.favorite_border_outlined)),
             IconButton(onPressed: () {}, icon: Icon(Icons.send))
           ]),
-          Text("좋아요: ${like.toString()}"),
-          Text(content)
+          Text("좋아요: ${context.watch<FeedListProvider>().feedList[widget.feedNum]["like"]}"),
+          Text("${context.watch<FeedListProvider>().feedList[widget.feedNum]["introduce"]}")
         ],
       )
     );
