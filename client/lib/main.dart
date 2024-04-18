@@ -1,10 +1,12 @@
 import 'package:client/pages/directmessage/directMessageList.dart';
+import 'package:client/pages/feed/addFeed.dart';
 import 'package:client/pages/home/home.dart';
 import 'package:client/pages/profile/profile.dart';
 import 'package:client/pages/login/register.dart';
 import 'package:client/pages/profile/settingProfileEdit.dart';
 import 'package:client/pages/profile/settings.dart';
 import 'package:client/pages/search/search.dart';
+import 'package:client/stores/feedListProvider.dart';
 import 'package:client/styles/main.style.dart';
 import 'package:flutter/material.dart';
 import 'package:image_picker/image_picker.dart';
@@ -18,19 +20,25 @@ import 'widgets/mainPage.dart';
 import '../styles/main.style.dart';
 
 void main() {
-  runApp(ChangeNotifierProvider(create: (c) => userProvider(), child: MaterialApp(
-      routes: {
-        '/': (c) => c.watch<userProvider>().id == "" || c.watch<userProvider>().pw == "" ? Login() : Home(),
-        '/register': (c) => Register(),
-        '/search': (c) => Search(),
-        '/profile': (c) => Profile(),
-        '/profile/settings': (c) => Settings(),
-        '/profile/settings/modification': (c) => ProfileEdit(),
-        '/directmessage/list': (c) => DirectMessageList()
-      },
-      theme: theme,
-    )
-  ));
+  runApp(MultiProvider(
+    providers: [
+      ChangeNotifierProvider(create: (c) => userProvider()),
+      ChangeNotifierProvider(create: (c) => FeedListProvider())
+    ],
+    child: MaterialApp(
+    routes: {
+      '/': (c) => c.watch<userProvider>().id == "" || c.watch<userProvider>().pw == "" ? Login() : Home(),
+      '/register': (c) => Register(),
+      '/feed/add': (c) => AddFeed(),
+      '/search': (c) => Search(),
+      '/profile': (c) => Profile(),
+      '/profile/settings': (c) => Settings(),
+      '/profile/settings/modification': (c) => ProfileEdit(),
+      '/directmessage/list': (c) => DirectMessageList()
+    },
+    theme: theme,
+  )
+  ),);
 }
 
 class MyApp extends StatefulWidget {
