@@ -17,6 +17,9 @@ class _HomeState extends State<Home> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
+      floatingActionButton: context.watch<userProvider>().direction == "up" ? FloatingActionButton(onPressed: () {
+        Navigator.pushNamed(context, "/feed/add");
+      }, child: Icon(Icons.add)) : null,
       appBar: AppBar(
         title: Text("Fluttergram"),
         actions: [IconButton(onPressed: () {
