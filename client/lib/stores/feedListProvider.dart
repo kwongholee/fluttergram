@@ -24,6 +24,10 @@ class FeedListProvider extends ChangeNotifier {
     feedList.insert(0, a);
     notifyListeners();
   }
+  editFeed(a, int n) {
+    feedList[n]["introduce"] = a;
+    notifyListeners();
+  }
   setLike(int i, bool d) {
     if(d) {
       // feedList[i]["like"] = feedList[i]["like"]! + 1;

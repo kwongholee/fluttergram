@@ -1,4 +1,6 @@
+import 'package:client/pages/feed/feedEdit.dart';
 import 'package:client/stores/feedListProvider.dart';
+import 'package:client/stores/userProvider.dart';
 import 'package:client/widgets/likeScreen.dart';
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
@@ -19,11 +21,11 @@ class _FeedState extends State<Feed> {
     return Container(
         padding: EdgeInsets.all(10),
         child: Column(crossAxisAlignment: CrossAxisAlignment.start, children: [
-          FeedHeader(writer: context.watch<FeedListProvider>().feedList[widget.feedNum]["writer"]),
+          FeedHeader(writer: context.watch<FeedListProvider>().feedList[widget.feedNum]["writer"], num: widget.feedNum),
           InkWell(onDoubleTap: () {setState(() {
             isPressedLike = !isPressedLike;
             if(isPressedLike) {
-              Navigator.push(context, MaterialPageRoute(builder: (context) => LikeScreen(isPressedLike: isPressedLike)));
+              // Navigator.push(context, MaterialPageRoute(builder: (context) => LikeScreen(isPressedLike: isPressedLike)));
             }
           });}, child: Image.asset('assets/jiwoo.jpg'),),
           Row(mainAxisAlignment: MainAxisAlignment.start, children: [
@@ -32,7 +34,7 @@ class _FeedState extends State<Feed> {
                 isPressedLike = !isPressedLike;
               });
               if(isPressedLike) {
-                Navigator.push(context, MaterialPageRoute(builder: (context) => LikeScreen(isPressedLike: isPressedLike)));
+                // Navigator.push(context, MaterialPageRoute(builder: (context) => LikeScreen(isPressedLike: isPressedLike)));
               }
             }, icon: isPressedLike ? Icon(Icons.favorite) : Icon(Icons.favorite_border_outlined)),
             IconButton(onPressed: () {}, icon: Icon(Icons.send))
@@ -46,24 +48,26 @@ class _FeedState extends State<Feed> {
 }
 
 class FeedHeader extends StatelessWidget {
-  const FeedHeader({Key? key, this.writer}) : super(key: key);
+  const FeedHeader({Key? key, this.writer, this.num}) : super(key: key);
   final writer;
+  final num;
 
   @override
   Widget build(BuildContext context) {
     return Container(padding: EdgeInsets.fromLTRB(0, 0, 0, 10), child: Row(
       mainAxisAlignment: MainAxisAlignment.spaceBetween, children: [
         Row(children: [Icon(Icons.account_circle), Text(writer)]),
-        IconButton(icon: Icon(Icons.more_vert), onPressed: () {showDialog(context: context, barrierDismissible: true, builder: (context) {
-          return FeedDialog();
-        });})
+        writer == context.watch<userProvider>().id ? IconButton(icon: Icon(Icons.more_vert), onPressed: () {showDialog(context: context, barrierDismissible: true, builder: (context) {
+          return FeedDialog(num: num);
+        });}) : Text("")
       ],)
     );
   }
 }
 
 class FeedDialog extends StatefulWidget {
-  FeedDialog({Key? key}) : super(key: key);
+  FeedDialog({Key? key, this.num}) : super(key: key);
+  final num;
 
   @override
   State<FeedDialog> createState() => _FeedDialogState();
@@ -71,8 +75,8 @@ class FeedDialog extends StatefulWidget {
 
 class _FeedDialogState extends State<FeedDialog> {
   var dialogList = [
-    {"name": "edit", "icon": Icon(Icons.edit), "route": "/feed/edit"},
-    {"name": "delete", "icon": Icon(Icons.delete), "route": "/feed/delete"}
+    {"name": "edit", "icon": Icon(Icons.edit), "widget": FeedEdit(num: num)},
+    {"name": "delete", "icon": Icon(Icons.delete)}
   ];
 
   @override
@@ -82,7 +86,12 @@ class _FeedDialogState extends State<FeedDialog> {
       child: ListView.builder(itemCount: dialogList.length, itemBuilder: (c,i) {
         Map<String, dynamic> item = dialogList[i];
         return InkWell(
-            onTap: () {},
+            onTap: () {
+              Navigator.pop(context);
+              if(i == 0) {
+                Navigator.push(context, MaterialPageRoute(builder: (c) => FeedEdit(num: widget.num)));
+              }
+            },
             child: Container(
               padding: EdgeInsets.all(10),
               decoration: BoxDecoration(border: Border(bottom: BorderSide(color: Colors.black))),
