@@ -1,4 +1,6 @@
+import 'package:client/stores/userProvider.dart';
 import 'package:flutter/material.dart';
+import 'package:provider/provider.dart';
 
 class ProfileHeader extends StatefulWidget {
   const ProfileHeader({Key? key}) : super(key: key);
@@ -9,7 +11,6 @@ class ProfileHeader extends StatefulWidget {
 
 class _ProfileHeaderState extends State<ProfileHeader> {
   Image profileImage = Image.asset('assets/jiwoo.jpg');
-  var profileInfo = {};
 
   @override
   Widget build(BuildContext context) {
@@ -28,11 +29,10 @@ class RightContainer extends StatelessWidget {
     return Flexible(flex: 4, child: Container(
       padding: EdgeInsets.all(30),
       height: 200,
-      decoration: BoxDecoration(color: Colors.red),
       child: Column(crossAxisAlignment: CrossAxisAlignment.start, children: [
         CircleAvatar(radius: 45, backgroundImage: AssetImage('assets/jiwoo.jpg')),
-        Container(margin: EdgeInsets.fromLTRB(0, 10, 0, 0), child: Text("이름")),
-        Text("소개글")
+        Container(margin: EdgeInsets.fromLTRB(0, 10, 0, 0), child: Text(context.watch<userProvider>().name)),
+        Text(context.watch<userProvider>().id)
       ]),
     ));
   }
@@ -46,11 +46,10 @@ class LeftContainer extends StatelessWidget {
   Widget build(BuildContext context) {
     return Flexible(flex: 6, child: Container(
       height: 200,
-      decoration: BoxDecoration(color: Colors.blue),
       child: Row(mainAxisAlignment: MainAxisAlignment.spaceEvenly, children: [
-        Column(mainAxisAlignment: MainAxisAlignment.center, children: [Text("3"), Text("feeds")],),
-        Column(mainAxisAlignment: MainAxisAlignment.center, children: [Text("321"), Text("followers")],),
-        Column(mainAxisAlignment: MainAxisAlignment.center, children: [Text("123"), Text("followings")],)
+        Column(mainAxisAlignment: MainAxisAlignment.center, children: [Text("3"), Text("feeds", style: TextStyle(fontWeight: FontWeight.w700),)],),
+        Column(mainAxisAlignment: MainAxisAlignment.center, children: [Text("321"), Text("followers", style: TextStyle(fontWeight: FontWeight.w700),)],),
+        Column(mainAxisAlignment: MainAxisAlignment.center, children: [Text("123"), Text("followings", style: TextStyle(fontWeight: FontWeight.w700),)],)
       ]),
     ));
   }
