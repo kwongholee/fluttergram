@@ -82,7 +82,7 @@ class _RegisterState extends State<Register> {
               showDialog(context: context, builder: (context) => NoticeDialog());
             }
             else {
-              context.read<userProvider>().tryLogin(id, pw);
+              context.read<userProvider>().setProfile(id, pw, name, introduce);
               Navigator.pushNamedAndRemoveUntil(context, '/', (route) => false);
             }
           }, child: Text("Register")),
