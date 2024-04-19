@@ -20,7 +20,7 @@ class _AddFeedState extends State<AddFeed> {
         leading: IconButton(icon: Icon(Icons.arrow_back), onPressed: () {Navigator.pop(context);}),
         title: Text("Add Feed"),
       ),
-      body: Column(crossAxisAlignment: CrossAxisAlignment.end, children: [
+      body: SingleChildScrollView(child: Column(crossAxisAlignment: CrossAxisAlignment.end, children: [
         Image.asset('assets/jiwoo.jpg'),
         Row(mainAxisAlignment: MainAxisAlignment.spaceEvenly, children: [
           Text("Introduce your Feed"),
@@ -37,7 +37,7 @@ class _AddFeedState extends State<AddFeed> {
           context.read<FeedListProvider>().addFeed(info);
           Navigator.pushNamedAndRemoveUntil(context, "/", (route) => false);
         }, child: Text("add"))
-      ])
+      ]))
     );
   }
 }
