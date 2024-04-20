@@ -11,10 +11,11 @@ class AddFeed extends StatefulWidget {
 }
 
 class _AddFeedState extends State<AddFeed> {
-  var info = {"writer": "", "introduce": "", "like": 0};
+  var info = {"id": 0, "writer": "", "introduce": "", "like": 0};
   @override
   Widget build(BuildContext context) {
-    var userId = context.watch<userProvider>().id;
+    var userId = context.watch<UserProvider>().userInfo["id"]!;
+    var feedId = context.watch<UserFeedListProvider>().feedList.length;
     return Scaffold(
       appBar: AppBar(
         leading: IconButton(icon: Icon(Icons.arrow_back), onPressed: () {Navigator.pop(context);}),
@@ -32,9 +33,10 @@ class _AddFeedState extends State<AddFeed> {
         ]),
         TextButton(onPressed: () {
           setState(() {
+            info["id"] = feedId;
             info["writer"] = userId;
           });
-          context.read<FeedListProvider>().addFeed(info);
+          context.read<UserFeedListProvider>().addFeed(info);
           Navigator.pushNamedAndRemoveUntil(context, "/", (route) => false);
         }, child: Text("add"))
       ]))

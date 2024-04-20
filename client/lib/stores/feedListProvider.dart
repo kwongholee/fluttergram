@@ -1,19 +1,22 @@
 import 'package:flutter/cupertino.dart';
 import 'package:provider/provider.dart';
 
-class FeedListProvider extends ChangeNotifier {
+class UserFeedListProvider extends ChangeNotifier {
   var feedList = [
     {
+      "id": 3,
       "writer" : "test",
       "introduce" : "지우 너무 예뻐",
       "like": 12
     },
     {
+      "id": 2,
       "writer" : "test",
       "introduce" : "지우 개예뻐",
       "like": 1001
     },
     {
+      "id": 1,
       "writer" : "test",
       "introduce" : "지우 미친 겁나 예뻐",
       "like": 120000

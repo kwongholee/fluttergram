@@ -17,7 +17,7 @@ class _RegisterState extends State<Register> {
 
   @override
   Widget build(BuildContext context) {
-    return ChangeNotifierProvider(create: (c) => userProvider(), child: Scaffold(
+    return ChangeNotifierProvider(create: (c) => UserProvider(), child: Scaffold(
       body: Column(
         mainAxisAlignment: MainAxisAlignment.center,
         children: [
@@ -82,7 +82,7 @@ class _RegisterState extends State<Register> {
               showDialog(context: context, builder: (context) => NoticeDialog());
             }
             else {
-              context.read<userProvider>().setProfile(id, pw, name, introduce);
+              context.read<UserProvider>().setProfile(id, pw, name, introduce);
               Navigator.pushNamedAndRemoveUntil(context, '/', (route) => false);
             }
           }, child: Text("Register")),

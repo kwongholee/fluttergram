@@ -31,7 +31,7 @@ class _FeedEditState extends State<FeedEdit> {
           });}))
         ]),
         TextButton(onPressed: () {
-          context.read<FeedListProvider>().editFeed(introduce, widget.num);
+          context.read<UserFeedListProvider>().editFeed(introduce, widget.num);
           Navigator.pushNamedAndRemoveUntil(context, "/", (route) => false);
         }, child: Text("edit"))
       ]),)

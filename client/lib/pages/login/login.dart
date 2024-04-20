@@ -19,7 +19,7 @@ class _LoginState extends State<Login> {
 
   @override
   Widget build(BuildContext context) {
-    return ChangeNotifierProvider(create: (c) => userProvider(), child: Scaffold(
+    return ChangeNotifierProvider(create: (c) => UserProvider(), child: Scaffold(
       body: Column(
         mainAxisAlignment: MainAxisAlignment.center,
         children: [
@@ -54,7 +54,7 @@ class _LoginState extends State<Login> {
             )
           ]),),
           TextButton(onPressed: () {
-            context.read<userProvider>().tryLogin(id, pw);
+            context.read<UserProvider>().tryLogin(id, pw);
           }, child: Text("Login")),
           Row(mainAxisAlignment: MainAxisAlignment.spaceEvenly, children: [
             Text("아직 회원가입하지 않으셨다면?"),

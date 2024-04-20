@@ -27,7 +27,7 @@ class _SearchState extends State<Search> {
         SliverGrid(delegate: SliverChildBuilderDelegate((c,i) => Container(child: Image.asset('assets/jiwoo.jpg')), childCount: 15),
             gridDelegate: SliverGridDelegateWithFixedCrossAxisCount(crossAxisCount: 3))
       ]),
-      bottomNavigationBar: context.watch<userProvider>().direction == "up" ? FootBar() : null
+      bottomNavigationBar: context.watch<UserProvider>().direction == "up" ? FootBar() : null
     );
   }
 }

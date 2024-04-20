@@ -17,7 +17,7 @@ class _HomeState extends State<Home> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      floatingActionButton: context.watch<userProvider>().direction == "up" ? FloatingActionButton(onPressed: () {
+      floatingActionButton: context.watch<UserProvider>().direction == "up" ? FloatingActionButton(onPressed: () {
         Navigator.pushNamed(context, "/feed/add");
       }, child: Icon(Icons.add)) : null,
       appBar: AppBar(
@@ -27,7 +27,7 @@ class _HomeState extends State<Home> {
         }, icon: Icon(Icons.send))],
       ),
       body: Mainpage(),
-      bottomNavigationBar: context.watch<userProvider>().direction == "up" ? FootBar() : null,
+      bottomNavigationBar: context.watch<UserProvider>().direction == "up" ? FootBar() : null,
     );
   }
 }

@@ -21,7 +21,7 @@ class _FeedState extends State<Feed> {
     return Container(
         padding: EdgeInsets.all(10),
         child: Column(crossAxisAlignment: CrossAxisAlignment.start, children: [
-          FeedHeader(writer: context.watch<FeedListProvider>().feedList[widget.feedNum]["writer"], num: widget.feedNum),
+          FeedHeader(writer: context.watch<UserFeedListProvider>().feedList[widget.feedNum]["writer"], num: widget.feedNum),
           InkWell(onDoubleTap: () {setState(() {
             isPressedLike = !isPressedLike;
             if(isPressedLike) {
@@ -39,8 +39,8 @@ class _FeedState extends State<Feed> {
             }, icon: isPressedLike ? Icon(Icons.favorite) : Icon(Icons.favorite_border_outlined)),
             IconButton(onPressed: () {}, icon: Icon(Icons.send))
           ]),
-          Text("좋아요: ${context.watch<FeedListProvider>().feedList[widget.feedNum]["like"]}"),
-          Text("${context.watch<FeedListProvider>().feedList[widget.feedNum]["introduce"]}")
+          Text("좋아요: ${context.watch<UserFeedListProvider>().feedList[widget.feedNum]["like"]}"),
+          Text("${context.watch<UserFeedListProvider>().feedList[widget.feedNum]["introduce"]}")
         ],
       )
     );
@@ -57,7 +57,7 @@ class FeedHeader extends StatelessWidget {
     return Container(padding: EdgeInsets.fromLTRB(0, 0, 0, 10), child: Row(
       mainAxisAlignment: MainAxisAlignment.spaceBetween, children: [
         Row(children: [Icon(Icons.account_circle), Text(writer)]),
-        writer == context.watch<userProvider>().id ? IconButton(icon: Icon(Icons.more_vert), onPressed: () {showDialog(context: context, barrierDismissible: true, builder: (context) {
+        writer == context.watch<UserProvider>().userInfo["id"] ? IconButton(icon: Icon(Icons.more_vert), onPressed: () {showDialog(context: context, barrierDismissible: true, builder: (context) {
           return FeedDialog(num: num);
         });}) : Text("")
       ],)

@@ -1,3 +1,4 @@
+import 'package:client/stores/feedListProvider.dart';
 import 'package:client/stores/userProvider.dart';
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
@@ -31,8 +32,8 @@ class RightContainer extends StatelessWidget {
       height: 200,
       child: Column(crossAxisAlignment: CrossAxisAlignment.start, children: [
         CircleAvatar(radius: 45, backgroundImage: AssetImage('assets/jiwoo.jpg')),
-        Container(margin: EdgeInsets.fromLTRB(0, 10, 0, 0), child: Text(context.watch<userProvider>().name)),
-        Text(context.watch<userProvider>().id)
+        Container(margin: EdgeInsets.fromLTRB(0, 10, 0, 0), child: Text(context.watch<UserProvider>().userInfo["name"]!)),
+        Text(context.watch<UserProvider>().userInfo["introduce"]!, style: TextStyle(fontSize: 10),)
       ]),
     ));
   }
@@ -47,7 +48,7 @@ class LeftContainer extends StatelessWidget {
     return Flexible(flex: 6, child: Container(
       height: 200,
       child: Row(mainAxisAlignment: MainAxisAlignment.spaceEvenly, children: [
-        Column(mainAxisAlignment: MainAxisAlignment.center, children: [Text("3"), Text("feeds", style: TextStyle(fontWeight: FontWeight.w700),)],),
+        Column(mainAxisAlignment: MainAxisAlignment.center, children: [Text("${context.watch<UserFeedListProvider>().feedList.length}"), Text("feeds", style: TextStyle(fontWeight: FontWeight.w700),)],),
         Column(mainAxisAlignment: MainAxisAlignment.center, children: [Text("321"), Text("followers", style: TextStyle(fontWeight: FontWeight.w700),)],),
         Column(mainAxisAlignment: MainAxisAlignment.center, children: [Text("123"), Text("followings", style: TextStyle(fontWeight: FontWeight.w700),)],)
       ]),
