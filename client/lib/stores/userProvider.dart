@@ -1,23 +1,30 @@
 import 'package:flutter/cupertino.dart';
 import 'package:provider/provider.dart';
 
-class userProvider extends ChangeNotifier {
-  String id = "";
-  String pw = "";
-  String name = "이광호";
-  String introduce = "리팡호 ㅎㅎ";
+class UserProvider extends ChangeNotifier {
+  var userInfo = {
+    "id": "",
+    "pw": "",
+    "name": "이광호",
+    "introduce": "리팡호 ㅎㅎㅎ"
+  };
   String direction = "up";
 
   void tryLogin(a,b) {
-    id = a;
-    pw = b;
+    if(userInfo["id"] != "" && userInfo["pw"] != "") {
+      if(userInfo["id"] != a && userInfo["pw"] != b) return;
+    }
+    else {
+      userInfo["id"] = a;
+      userInfo["pw"] = b;
+    }
     notifyListeners();
   }
   void setProfile(a,b,c,d) {
-    id = a;
-    pw = b;
-    name = c;
-    introduce = d;
+    userInfo["id"] = a;
+    userInfo["pw"] = b;
+    userInfo["name"] = c;
+    userInfo["introduce"] = d;
   }
   void changeDirection(n) {
     direction = n;
