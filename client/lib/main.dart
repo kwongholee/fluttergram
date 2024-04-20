@@ -1,5 +1,6 @@
 import 'package:client/pages/directmessage/directMessageList.dart';
 import 'package:client/pages/feed/addFeed.dart';
+import 'package:client/pages/feed/feedDetail.dart';
 import 'package:client/pages/home/home.dart';
 import 'package:client/pages/profile/profile.dart';
 import 'package:client/pages/login/register.dart';
@@ -13,6 +14,7 @@ import 'package:image_picker/image_picker.dart';
 import 'package:provider/provider.dart';
 import 'dart:io';
 import 'dart:convert';
+import 'package:flutter_router/flutter_router.dart' as FRouter;
 
 import './stores/userProvider.dart';
 import 'pages/login/login.dart';
@@ -22,20 +24,27 @@ import '../styles/main.style.dart';
 void main() {
   runApp(MultiProvider(
     providers: [
-      ChangeNotifierProvider(create: (c) => userProvider()),
-      ChangeNotifierProvider(create: (c) => FeedListProvider())
+      ChangeNotifierProvider(create: (c) => UserProvider()),
+      ChangeNotifierProvider(create: (c) => UserFeedListProvider())
     ],
     child: MaterialApp(
-    routes: {
-      '/': (c) => c.watch<userProvider>().id == "" || c.watch<userProvider>().pw == "" ? Login() : Home(),
-      '/register': (c) => Register(),
-      '/feed/add': (c) => AddFeed(),
-      '/search': (c) => Search(),
-      '/profile': (c) => Profile(),
-      '/profile/settings': (c) => Settings(),
-      '/profile/settings/modification': (c) => ProfileEdit(),
-      '/directmessage/list': (c) => DirectMessageList()
-    },
+      onGenerateRoute: FRouter.Router({
+        '/feed/detail/{id}': (context, match, settings) {
+          String? idString = match!.parameters["id"];
+          int id = int.parse(idString!);
+          return FeedDetail(id: id);
+        }
+      }).get,
+      routes: {
+        '/': (c) => c.watch<UserProvider>().userInfo["id"] == "" || c.watch<UserProvider>().userInfo["pw"] == "" ? Login() : Home(),
+        '/register': (c) => Register(),
+        '/feed/add': (c) => AddFeed(),
+        '/search': (c) => Search(),
+        '/profile': (c) => Profile(),
+        '/profile/settings': (c) => Settings(),
+        '/profile/settings/modification': (c) => ProfileEdit(),
+        '/directmessage/list': (c) => DirectMessageList()
+      },
     theme: theme,
   )
   ),);
