@@ -1,4 +1,5 @@
 import 'package:client/stores/feedListProvider.dart';
+import 'package:client/stores/followProvider.dart';
 import 'package:client/stores/userProvider.dart';
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
@@ -49,8 +50,26 @@ class LeftContainer extends StatelessWidget {
       height: 200,
       child: Row(mainAxisAlignment: MainAxisAlignment.spaceEvenly, children: [
         Column(mainAxisAlignment: MainAxisAlignment.center, children: [Text("${context.watch<UserFeedListProvider>().feedList.length}"), Text("feeds", style: TextStyle(fontWeight: FontWeight.w700),)],),
-        Column(mainAxisAlignment: MainAxisAlignment.center, children: [Text("321"), Text("followers", style: TextStyle(fontWeight: FontWeight.w700),)],),
-        Column(mainAxisAlignment: MainAxisAlignment.center, children: [Text("123"), Text("followings", style: TextStyle(fontWeight: FontWeight.w700),)],)
+        InkWell(
+          onTap: () {
+            context.read<FollowProvider>().changeTab("follower");
+            Navigator.pushNamed(context, "/profile/followlist");
+          },
+          child: Column(mainAxisAlignment: MainAxisAlignment.center, children: [
+            Text("${context.watch<FollowProvider>().followerList.length}"),
+            Text("followers", style: TextStyle(fontWeight: FontWeight.w700),)
+          ],),
+        ),
+        InkWell(
+          onTap: () {
+            context.read<FollowProvider>().changeTab("following");
+            Navigator.pushNamed(context, "/profile/followlist");
+          },
+          child: Column(mainAxisAlignment: MainAxisAlignment.center, children: [
+            Text("${context.watch<FollowProvider>().followingList.length}"),
+            Text("followings", style: TextStyle(fontWeight: FontWeight.w700),)
+          ],)
+        )
       ]),
     ));
   }
