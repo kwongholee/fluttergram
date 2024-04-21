@@ -2,12 +2,14 @@ import 'package:client/pages/directmessage/directMessageList.dart';
 import 'package:client/pages/feed/addFeed.dart';
 import 'package:client/pages/feed/feedDetail.dart';
 import 'package:client/pages/home/home.dart';
-import 'package:client/pages/profile/profile.dart';
+import 'package:client/pages/userProfile/followList.dart';
+import 'package:client/pages/userProfile/profile.dart';
 import 'package:client/pages/login/register.dart';
-import 'package:client/pages/profile/settingProfileEdit.dart';
-import 'package:client/pages/profile/settings.dart';
+import 'package:client/pages/userProfile/settingProfileEdit.dart';
+import 'package:client/pages/userProfile/settings.dart';
 import 'package:client/pages/search/search.dart';
 import 'package:client/stores/feedListProvider.dart';
+import 'package:client/stores/followProvider.dart';
 import 'package:client/styles/main.style.dart';
 import 'package:flutter/material.dart';
 import 'package:image_picker/image_picker.dart';
@@ -25,7 +27,8 @@ void main() {
   runApp(MultiProvider(
     providers: [
       ChangeNotifierProvider(create: (c) => UserProvider()),
-      ChangeNotifierProvider(create: (c) => UserFeedListProvider())
+      ChangeNotifierProvider(create: (c) => UserFeedListProvider()),
+      ChangeNotifierProvider(create: (c) => FollowProvider())
     ],
     child: MaterialApp(
       onGenerateRoute: FRouter.Router({
@@ -41,6 +44,7 @@ void main() {
         '/feed/add': (c) => AddFeed(),
         '/search': (c) => Search(),
         '/profile': (c) => Profile(),
+        '/profile/followlist': (c) => FollowList(),
         '/profile/settings': (c) => Settings(),
         '/profile/settings/modification': (c) => ProfileEdit(),
         '/directmessage/list': (c) => DirectMessageList()

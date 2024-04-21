@@ -1,9 +1,4 @@
-import 'package:client/pages/home/home.dart';
-import 'package:client/pages/profile/profile.dart';
-import 'package:client/pages/search/search.dart';
-import 'package:client/stores/userProvider.dart';
 import 'package:flutter/material.dart';
-import 'package:provider/provider.dart';
 
 class FootBar extends StatelessWidget {
   const FootBar({Key? key}) : super(key: key);
