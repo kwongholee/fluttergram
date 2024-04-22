@@ -1,4 +1,5 @@
 import 'package:client/pages/directmessage/directMessageList.dart';
+import 'package:client/pages/directmessage/directMessageRoom.dart';
 import 'package:client/pages/feed/addFeed.dart';
 import 'package:client/pages/feed/feedDetail.dart';
 import 'package:client/pages/home/home.dart';
@@ -8,6 +9,7 @@ import 'package:client/pages/login/register.dart';
 import 'package:client/pages/userProfile/settingProfileEdit.dart';
 import 'package:client/pages/userProfile/settings.dart';
 import 'package:client/pages/search/search.dart';
+import 'package:client/stores/directMessage.dart';
 import 'package:client/stores/feedListProvider.dart';
 import 'package:client/stores/followProvider.dart';
 import 'package:client/styles/main.style.dart';
@@ -28,7 +30,8 @@ void main() {
     providers: [
       ChangeNotifierProvider(create: (c) => UserProvider()),
       ChangeNotifierProvider(create: (c) => UserFeedListProvider()),
-      ChangeNotifierProvider(create: (c) => FollowProvider())
+      ChangeNotifierProvider(create: (c) => FollowProvider()),
+      ChangeNotifierProvider(create: (c) => DirectMessage())
     ],
     child: MaterialApp(
       onGenerateRoute: FRouter.Router({
@@ -36,7 +39,8 @@ void main() {
           String? idString = match!.parameters["id"];
           int id = int.parse(idString!);
           return FeedDetail(id: id);
-        }
+        },
+        '/directmessage/room/{id}': (context, match, settings) => DirectMessageRoom(id: match!.parameters["id"])
       }).get,
       routes: {
         '/': (c) => c.watch<UserProvider>().userInfo["id"] == "" || c.watch<UserProvider>().userInfo["pw"] == "" ? Login() : Home(),

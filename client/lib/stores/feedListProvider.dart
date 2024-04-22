@@ -37,4 +37,8 @@ class UserFeedListProvider extends ChangeNotifier {
       notifyListeners();
     }
   }
+  deleteFeed(int i) {
+    feedList.removeAt(i);
+    notifyListeners();
+  }
 }
