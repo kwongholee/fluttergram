@@ -18,19 +18,19 @@ class _ProfileEditState extends State<ProfileEdit> {
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(leading: IconButton(icon: Icon(Icons.arrow_back), onPressed: () {Navigator.pop(context);}), title: Text("Profile Edit Page")),
-      body: ListView.builder(
-          itemCount: 3,
-          itemBuilder: (c, i) => InkWell(
-            onTap: () {Navigator.pushNamed(context, settingList[i]["route"]!);},
-            child: Container(
-              decoration: BoxDecoration(border: Border(bottom: BorderSide(color: Colors.black))),
-              padding: EdgeInsets.all(20),
-              child: Row(mainAxisAlignment: MainAxisAlignment.spaceBetween, children: [
-                Icon(Icons.badge),
-                Text(settingList[i]["name"]!)
-              ]),
-            )
+      body: ListView.separated(
+        itemCount: 3,
+        itemBuilder: (c, i) => InkWell(
+          onTap: () {Navigator.pushNamed(context, settingList[i]["route"]!);},
+          child: Container(
+            padding: EdgeInsets.all(20),
+            child: Row(mainAxisAlignment: MainAxisAlignment.spaceBetween, children: [
+              Icon(Icons.badge),
+              Text(settingList[i]["name"]!)
+            ]),
           )
+        ),
+        separatorBuilder: (context, index) => Divider(thickness: 2),
       )
     );
   }

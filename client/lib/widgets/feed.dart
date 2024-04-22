@@ -82,8 +82,8 @@ class _FeedDialogState extends State<FeedDialog> {
   @override
   Widget build(BuildContext context) {
     return Dialog(child: SizedBox(
-      height: 90,
-      child: ListView.builder(itemCount: dialogList.length, itemBuilder: (c,i) {
+      height: 100,
+      child: ListView.separated(itemCount: dialogList.length, itemBuilder: (c,i) {
         Map<String, dynamic> item = dialogList[i];
         return InkWell(
             onTap: () {
@@ -91,16 +91,18 @@ class _FeedDialogState extends State<FeedDialog> {
               if(i == 0) {
                 Navigator.push(context, MaterialPageRoute(builder: (c) => FeedEdit(num: widget.num)));
               }
+              else if(i == 1) {
+                context.read<UserFeedListProvider>().deleteFeed(widget.num);
+              }
             },
             child: Container(
               padding: EdgeInsets.all(10),
-              decoration: BoxDecoration(border: Border(bottom: BorderSide(color: Colors.black))),
               child: Row(mainAxisAlignment: MainAxisAlignment.spaceAround, children: [
                 Text(item["name"]),
                 item["icon"]
               ],),
             )
-        );}),
+        );}, separatorBuilder: (context, index) => Divider(),),
     ));
   }
 }

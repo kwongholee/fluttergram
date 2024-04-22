@@ -19,22 +19,24 @@ class FollowList extends StatelessWidget {
           ]),
           Expanded(
             child: (context.watch<FollowProvider>().tab == "follower" && context.watch<FollowProvider>().followerList.isEmpty == true)
-                || (context.watch<FollowProvider>().tab == "following" && context.watch<FollowProvider>().followingList.isEmpty == true)
-                ? NoticeNoFollow()
-                : ListView.builder(
-                itemCount: context.watch<FollowProvider>().tab == "follower" ? context.watch<FollowProvider>().followerList.length : context.watch<FollowProvider>().followingList.length,
-                itemBuilder: (c,i) => InkWell(
-                    onTap: () {},
-                    child: SizedBox(
-                      height: 40,
-                      child: Row(mainAxisAlignment: MainAxisAlignment.spaceAround, children: [
-                        Icon(Icons.account_circle),
-                        context.watch<FollowProvider>().tab == "follower"
-                            ? Text("${context.watch<FollowProvider>().followerList[i]["id"]}")
-                            : Text("${context.watch<FollowProvider>().followingList[i]["id"]}")
-                      ]),
-                    )
-                ))
+            || (context.watch<FollowProvider>().tab == "following" && context.watch<FollowProvider>().followingList.isEmpty == true)
+            ? NoticeNoFollow()
+            : ListView.separated(
+              itemCount: context.watch<FollowProvider>().tab == "follower" ? context.watch<FollowProvider>().followerList.length : context.watch<FollowProvider>().followingList.length,
+              itemBuilder: (c,i) => InkWell(
+                onTap: () {},
+                child: SizedBox(
+                  height: 40,
+                  child: Row(mainAxisAlignment: MainAxisAlignment.spaceAround, children: [
+                    Icon(Icons.account_circle),
+                    context.watch<FollowProvider>().tab == "follower"
+                    ? Text("${context.watch<FollowProvider>().followerList[i]["id"]}")
+                    : Text("${context.watch<FollowProvider>().followingList[i]["id"]}")
+                  ]),
+                )
+              ),
+              separatorBuilder: (context, index) => Divider(thickness: 1),
+            )
           )
         ]
       ),

@@ -19,9 +19,9 @@ class _SettingsState extends State<Settings> {
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(leading: IconButton(icon: Icon(Icons.arrow_back), onPressed: () {Navigator.pop(context);},), title: Text("Profile Settings"),),
-      body: SizedBox(child: ListView.builder(itemCount: settingOption.length, itemBuilder: (c,i) {
+      body: SizedBox(child: ListView.separated(itemCount: settingOption.length, itemBuilder: (c,i) {
         return SettingList(settingOption: settingOption, num: i);
-      })),
+      }, separatorBuilder: (context, index) => Divider(thickness: 2),)),
     );
   }
 }
@@ -45,7 +45,6 @@ class SettingList extends StatelessWidget {
         },
       child: Container(
         padding: EdgeInsets.all(20),
-        decoration: BoxDecoration(border: Border(bottom: BorderSide(color: Colors.black))),
         child: Row(mainAxisAlignment: MainAxisAlignment.spaceAround, children: [
           settingOption[num]["icon"],
           Text(settingOption[num]["name"])

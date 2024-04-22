@@ -12,7 +12,7 @@ class DirectMessageList extends StatefulWidget {
 }
 
 class _DirectMessageListState extends State<DirectMessageList> {
-  var contactList = [{"chatroom": "1", "account": "이광호"}, {"chatroom": "2", "account": "김민아"}, {"chatroom": "3", "account": "이서진"}, {"chatroom": "4", "account": "황혁수"}];
+  var contactList = [];
   void addContactList(v) {
     setState(() {
       contactList.add(v);
@@ -33,12 +33,27 @@ class _DirectMessageListState extends State<DirectMessageList> {
         }, icon: Icon(Icons.arrow_back)),
         title: Text("Fluttergram Direct Message"),
       ),
-      body: ListView.builder(itemCount: contactList.length, itemBuilder: (c,i) {
+      body: contactList.isEmpty ? NoticeNoRoom() : ListView.separated(itemCount: contactList.length, itemBuilder: (c,i) {
         return Contact(contactList: contactList, num: i);
-      }),
+      }, separatorBuilder: (context, index) => Divider(),),
     );
   }
 }
+
+class NoticeNoRoom extends StatelessWidget {
+  const NoticeNoRoom({Key? key}) : super(key: key);
+
+  @override
+  Widget build(BuildContext context) {
+    return Center(
+      child: Column(mainAxisAlignment: MainAxisAlignment.center, crossAxisAlignment: CrossAxisAlignment.center, children: [
+        Icon(Icons.error),
+        Text("No Chatroom")
+      ])
+    );
+  }
+}
+
 
 class Contact extends StatefulWidget {
   const Contact({Key? key, this.contactList, this.num}) : super(key: key);
@@ -52,19 +67,23 @@ class Contact extends StatefulWidget {
 class _ContactState extends State<Contact> {
   @override
   Widget build(BuildContext context) {
-    return Container(
-      decoration: BoxDecoration(border: Border(bottom: BorderSide(color: Colors.black))),
+    return SizedBox(
       height: 50,
-      child: Row(
-        mainAxisAlignment: MainAxisAlignment.start,
-        crossAxisAlignment: CrossAxisAlignment.center,
-        children: [
-          Icon(Icons.account_circle),
-          Column(mainAxisAlignment: MainAxisAlignment.start, crossAxisAlignment: CrossAxisAlignment.start, children: [
-            Text(widget.contactList[widget.num]["chatroom"]),
-            Text(widget.contactList[widget.num]["account"])
-          ],)
-        ],
+      child: InkWell(
+        onTap: () {
+          Navigator.pushNamed(context, "/directmessage/room/${widget.contactList[widget.num]["chatroom"]}");
+        },
+        child: Row(
+          mainAxisAlignment: MainAxisAlignment.start,
+          crossAxisAlignment: CrossAxisAlignment.center,
+          children: [
+            Icon(Icons.account_circle),
+            Column(mainAxisAlignment: MainAxisAlignment.start, crossAxisAlignment: CrossAxisAlignment.start, children: [
+              Text(widget.contactList[widget.num]["chatroom"]),
+              Text(widget.contactList[widget.num]["account"])
+            ],)
+          ],
+        )
       ),
     );
   }
