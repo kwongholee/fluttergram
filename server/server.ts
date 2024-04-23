@@ -2,14 +2,19 @@ require('dotenv').config();
 import express, { Express, Request, Response } from "express";
 const app: Express = express();
 const cors = require('cors');
-const connectDB = require('./model/connectDB');
+
+const connectMongo = require('./config/connectMongo');
+const connectNeo4j = require('./config/connectNeo4j');
+const addFeed = require('./controller/addFeed.controller');
 
 app.use(cors());
 app.use(express.urlencoded({extended: true}));
 
 app.listen(process.env.SERVER_PORT,  () => {
-  connectDB;
+  connectMongo();
+  connectNeo4j();
   console.log('Server is running...');
+  addFeed();
 })
 
 app.use('/info', require('./routes/info'));
