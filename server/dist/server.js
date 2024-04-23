@@ -7,12 +7,16 @@ require('dotenv').config();
 var express_1 = __importDefault(require("express"));
 var app = (0, express_1.default)();
 var cors = require('cors');
-var connectDB = require('./model/connectDB');
+var connectMongo = require('./config/connectMongo');
+var connectNeo4j = require('./config/connectNeo4j');
+var addFeed = require('./controller/addFeed.controller');
 app.use(cors());
 app.use(express_1.default.urlencoded({ extended: true }));
 app.listen(process.env.SERVER_PORT, function () {
-    connectDB;
+    connectMongo();
+    connectNeo4j();
     console.log('Server is running...');
+    addFeed();
 });
 app.use('/info', require('./routes/info'));
 app.use('/user', require('./routes/user'));
