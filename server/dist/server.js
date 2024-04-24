@@ -12,16 +12,14 @@ var connectNeo4j = require('./config/connectNeo4j');
 var addFeed = require('./controller/addFeed.controller');
 app.use(cors());
 app.use(express_1.default.urlencoded({ extended: true }));
+app.use(express_1.default.json());
 app.listen(process.env.SERVER_PORT, function () {
     connectMongo();
     connectNeo4j();
     console.log('Server is running...');
-    addFeed();
 });
 app.use('/info', require('./routes/info'));
 app.use('/user', require('./routes/user'));
 app.use('/feed', require('./routes/feed'));
 app.use('/message', require('./routes/message'));
-app.get('/', function (req, res) {
-    res.send("mainpage");
-});
+app.get('*', function (req, res) { console.log("server is running"); });
