@@ -7,4 +7,5 @@ const feedSchema = new mongoose.Schema({
   "like": Number
 })
 var feedModel = mongoose.model("Feed", feedSchema);
+
 module.exports = feedModel;
