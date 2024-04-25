@@ -16,36 +16,45 @@ router.get('/message', (req: Request, res: Response) => {
   res.send("chatroom info");
 })
 
-router.get('/feed', (req: Request, res: Response) => {
-  var id = req.query.id;
-  feedModel.findOne({_id: new ObjectId(id)}, (err: Error, feed: any) => {
-    if(err || !feed) {
-      console.log(err);
-      return res.status(400);
-    }
-    return res.status(200).json(feed);
-  })
+router.get('/feed', async (req: Request, res: Response) => {
+  try {
+    const result = await feedModel.findOne({_id: new ObjectId(req.query.id)}).exec();
+    res.status(200).json(result);
+  }
+  catch(err) {
+    console.log(err);
+    return res.status(400);
+  }
 })
 
-router.get('/feed/main', (req: Request, res: Response) => {
-  feedModel.find({}, (err: Error, feeds: any) => {
-    if(err) {
-      console.log(err);
-      return res.status(400);
+router.get('/feed/main', async (req: Request, res: Response) => {
+  try {
+    const result = await feedModel.find({}).exec();
+    if(result) {
+      res.status(200).json(result);
+    } else {
+      res.status(200).json([]);
     }
-    return res.status(200).json(feeds);
-  })
+  }
+  catch(err) {
+    console.log(err);
+    return res.status(400);
+  }
 })
 
-router.get('/feed/user', (req: Request, res: Response) => {
-  var user = req.query.user;
-  feedModel.find({writer: user}, (err: Error, feeds: any) => {
-    if(err) {
-      console.log(err);
-      return res.status(400);
+router.get('/feed/user', async (req: Request, res: Response) => {
+  try {
+    const result = await feedModel.find({"writer": req.query.userId}).exec();
+    if(result) {
+      res.status(200).json(result);
+    } else {
+      res.status(200).json([]);
     }
-    return res.status(200).json(feeds);
-  })
+  }
+  catch(err) {
+    console.log(err);
+    return res.status(400);
+  }
 })
 
 module.exports = router;
