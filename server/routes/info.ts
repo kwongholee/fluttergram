@@ -37,6 +37,7 @@ router.get('/user/follow/check', async (req: Request, res: Response) => {
       {database: 'neo4j'}
     );
     let record = records[0].get('connected');
+    console.log(`${id1} and ${id2} are ${record}`);
     return res.status(200).json(record);
   } catch(err) {
     console.log(err);
