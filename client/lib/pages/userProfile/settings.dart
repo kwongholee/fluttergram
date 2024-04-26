@@ -36,7 +36,7 @@ class SettingList extends StatelessWidget {
     return InkWell(
       onTap: () {
           if(num == 1) {
-            context.read<UserProvider>().tryLogin("", "");
+            context.read<UserProvider>().logIn("");
             Navigator.pushNamedAndRemoveUntil(context, settingOption[num]["route"], (route) => false);
           }
           else {
