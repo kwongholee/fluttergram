@@ -64,16 +64,24 @@ class _RightContainerState extends State<RightContainer> {
   final dio = Dio();
   
   getCheckFollow() async {
-    final response = await dio.get('http://192.168.35.50:8080/info/user/follow/check', data: {"id1": widget.loginId, "id2": "test2"});
+    final response = await dio.get('http://192.168.35.50:8080/info/user/follow/check', data: {"id1": widget.loginId, "id2": widget.userId});
     setState(() {
       follow = response.data;
     });
   }
 
+  followUser() async {
+    final response = await dio.post('http://192.168.35.50:8080/follow/new?id1=${widget.loginId}&id2=${widget.userId}');
+  }
+
+  unFollowUser() async {
+    final response = await dio.delete('http://192.168.35.50:8080/follow/new?id1=${widget.loginId}&id2=${widget.userId}');
+  }
+
   @override
   void initState() {
     super.initState();
-    if(widget.loginId != "test2") {getCheckFollow();}
+    if(widget.loginId != widget.userId) {getCheckFollow();}
   }
   
   @override
@@ -105,8 +113,19 @@ class _RightContainerState extends State<RightContainer> {
           )
         ]),
         widget.userId == context.watch<UserProvider>().userInfo["id"] ? Text("")
-          : ElevatedButton(onPressed: () {}, child:
-            follow ? Text("Following") : Text("Follow")
+          : ElevatedButton(onPressed: () {
+              if(!follow) {
+                followUser();
+                setState(() {
+                  follow = true;
+                });
+              } else {
+                unFollowUser();
+                setState(() {
+                  follow = false;
+                });
+              }
+            }, child: follow ? Text("Following") : Text("Follow")
         )
       ]),
     ));

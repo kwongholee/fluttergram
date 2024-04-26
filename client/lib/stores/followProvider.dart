@@ -2,14 +2,12 @@ import 'package:flutter/material.dart';
 
 class FollowProvider extends ChangeNotifier {
   var followingList = [
-    {"id": "i_gogh_03"},
-    {"id": "test1"},
-    {"id": "test2"}
+    {"id": "test2"},
+    {"id": "test3"}
   ];
   var followerList = [
-    {"id": "i_gogh_03"},
-    {"id": "test3"},
-    {"id": "test4"}
+    {"id": "test2"},
+    {"id": "test3"}
   ];
   String tab = "";
 

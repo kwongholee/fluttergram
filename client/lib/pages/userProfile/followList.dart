@@ -8,6 +8,7 @@ class FollowList extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+    var id = context.watch<FollowProvider>().followerList;
     return Scaffold(
       appBar: AppBar(
         leading: IconButton(icon: Icon(Icons.arrow_back), onPressed: () {Navigator.pop(context);}),
@@ -25,7 +26,9 @@ class FollowList extends StatelessWidget {
             : ListView.separated(
               itemCount: context.watch<FollowProvider>().tab == "follower" ? context.watch<FollowProvider>().followerList.length : context.watch<FollowProvider>().followingList.length,
               itemBuilder: (c,i) => InkWell(
-                onTap: () {},
+                onTap: () {
+                  Navigator.pushNamed(context, '/profile/${id[i]["id"].toString()}');
+                },
                 child: SizedBox(
                   height: 40,
                   child: Row(mainAxisAlignment: MainAxisAlignment.spaceAround, children: [
