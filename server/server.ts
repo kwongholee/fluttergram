@@ -20,3 +20,4 @@ app.use('/info', require('./routes/info'));
 app.use('/user', require('./routes/user'));
 app.use('/feed', require('./routes/feed'));
 app.use('/message', require('./routes/message'));
+app.use('/follow', require('./routes/follow'));
