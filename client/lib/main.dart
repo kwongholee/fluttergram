@@ -36,19 +36,18 @@ void main() {
     child: MaterialApp(
       onGenerateRoute: FRouter.Router({
         '/feed/detail/{id}': (context, match, settings) {
-          String? idString = match!.parameters["id"];
-          int id = int.parse(idString!);
+          String? id = match!.parameters["id"];
           return FeedDetail(id: id);
         },
-        '/directmessage/room/{id}': (context, match, settings) => DirectMessageRoom(id: match!.parameters["id"])
+        '/directmessage/room/{id}': (context, match, settings) => DirectMessageRoom(id: match!.parameters["id"]),
+        '/profile/{id}': (context, match, settings) => Profile(user: match!.parameters["id"]),
+        '/profile/followlist/{id}': (context, match, settings) => FollowList(user: match!.parameters["user"])
       }).get,
       routes: {
-        '/': (c) => c.watch<UserProvider>().userInfo["id"] == "" || c.watch<UserProvider>().userInfo["pw"] == "" ? Login() : Home(),
+        '/': (c) => c.watch<UserProvider>().userInfo["id"] == "" ? Login() : Home(),
         '/register': (c) => Register(),
         '/feed/add': (c) => AddFeed(),
         '/search': (c) => Search(),
-        '/profile': (c) => Profile(),
-        '/profile/followlist': (c) => FollowList(),
         '/profile/settings': (c) => Settings(),
         '/profile/settings/modification': (c) => ProfileEdit(),
         '/directmessage/list': (c) => DirectMessageList()
