@@ -27,6 +27,23 @@ router.get('/user/follower', (req: Request, res: Response) => {
   res.send("user follower info");
 })
 
+router.get('/user/follow/check', async (req: Request, res: Response) => {
+  var id1 = req.body.id1, id2 = req.body.id2;
+  try {
+    const {driver} = await connectNeo4j();
+    let {records, summary} = await driver.executeQuery(
+      'MATCH (:User {id: $id1})-[:Follow]->(:User {id: $id2}) RETURN COUNT(*) > 0 AS connected',
+      {id1: id1, id2: id2},
+      {database: 'neo4j'}
+    );
+    let record = records[0].get('connected');
+    return res.status(200).json(record);
+  } catch(err) {
+    console.log(err);
+    return res.status(400);
+  }
+})
+
 router.get('/message', (req: Request, res: Response) => {
   res.send("chatroom info");
 })
