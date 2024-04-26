@@ -3,6 +3,7 @@ import 'package:client/stores/followProvider.dart';
 import 'package:client/stores/userProvider.dart';
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
+import 'package:dio/dio.dart';
 
 class ProfileHeader extends StatefulWidget {
   const ProfileHeader({Key? key, this.feedNum, this.userInfo}) : super(key: key);
@@ -18,17 +19,13 @@ class _ProfileHeaderState extends State<ProfileHeader> {
 
   @override
   Widget build(BuildContext context) {
-    return Container(child: Column(
-      children: [
-        Row(mainAxisAlignment: MainAxisAlignment.spaceAround, children: [
+    String? loginId = context.watch<UserProvider>().userInfo["id"];
+    return Row(mainAxisAlignment: MainAxisAlignment.spaceAround,
+        children: [
           LeftContainer(info: widget.userInfo),
-          RightContainer(num: widget.feedNum)
-        ]),
-        Row(mainAxisAlignment: MainAxisAlignment.spaceAround, children: [
-          ElevatedButton(onPressed: () {}, child: Text("Follow"))
-        ])
-      ],
-    ));
+          RightContainer(num: widget.feedNum, userId: widget.userInfo["id"], loginId: loginId)
+        ]
+    );
   }
 }
 
@@ -51,35 +48,65 @@ class LeftContainer extends StatelessWidget {
 }
 
 
-class RightContainer extends StatelessWidget {
-  const RightContainer({Key? key, this.num}) : super(key: key);
+class RightContainer extends StatefulWidget {
+  const RightContainer({Key? key, this.num, this.userId, this.loginId}) : super(key: key);
   final num;
+  final userId;
+  final loginId;
 
+  @override
+  State<RightContainer> createState() => _RightContainerState();
+}
+
+class _RightContainerState extends State<RightContainer> {
+  bool loading = true;
+  bool follow = false;
+  final dio = Dio();
+  
+  getCheckFollow() async {
+    final response = await dio.get('http://192.168.35.50:8080/info/user/follow/check', data: {"id1": widget.loginId, "id2": "test2"});
+    setState(() {
+      follow = response.data;
+    });
+  }
+
+  @override
+  void initState() {
+    super.initState();
+    if(widget.loginId != "test2") {getCheckFollow();}
+  }
+  
   @override
   Widget build(BuildContext context) {
     return Flexible(flex: 6, child: Container(
       height: 200,
-      child: Row(mainAxisAlignment: MainAxisAlignment.spaceEvenly, children: [
-        Column(mainAxisAlignment: MainAxisAlignment.center, children: [Text("${num}"), Text("feeds", style: TextStyle(fontWeight: FontWeight.w700),)],),
-        InkWell(
-          onTap: () {
-            context.read<FollowProvider>().changeTab("follower");
-            Navigator.pushNamed(context, "/profile/followlist");
-          },
-          child: Column(mainAxisAlignment: MainAxisAlignment.center, children: [
-            Text("${context.watch<FollowProvider>().followerList.length}"),
-            Text("followers", style: TextStyle(fontWeight: FontWeight.w700),)
-          ],),
-        ),
-        InkWell(
-          onTap: () {
-            context.read<FollowProvider>().changeTab("following");
-            Navigator.pushNamed(context, "/profile/followlist");
-          },
-          child: Column(mainAxisAlignment: MainAxisAlignment.center, children: [
-            Text("${context.watch<FollowProvider>().followingList.length}"),
-            Text("followings", style: TextStyle(fontWeight: FontWeight.w700),)
-          ],)
+      child: Column(mainAxisAlignment: MainAxisAlignment.center, children: [
+        Row(mainAxisAlignment: MainAxisAlignment.spaceEvenly, children: [
+          Column(mainAxisAlignment: MainAxisAlignment.center, children: [Text("${widget.num}"), Text("feeds", style: TextStyle(fontWeight: FontWeight.w700),)],),
+          InkWell(
+            onTap: () {
+              context.read<FollowProvider>().changeTab("follower");
+              Navigator.pushNamed(context, "/profile/followlist/${widget.userId.toString()}");
+            },
+            child: Column(mainAxisAlignment: MainAxisAlignment.center, children: [
+              Text("${context.watch<FollowProvider>().followerList.length}"),
+              Text("followers", style: TextStyle(fontWeight: FontWeight.w700),)
+            ],),
+          ),
+          InkWell(
+            onTap: () {
+              context.read<FollowProvider>().changeTab("following");
+              Navigator.pushNamed(context, "/profile/followlist/${widget.userId.toString()}");
+            },
+            child: Column(mainAxisAlignment: MainAxisAlignment.center, children: [
+              Text("${context.watch<FollowProvider>().followingList.length}"),
+              Text("followings", style: TextStyle(fontWeight: FontWeight.w700),)
+            ],)
+          )
+        ]),
+        widget.userId == context.watch<UserProvider>().userInfo["id"] ? Text("")
+          : ElevatedButton(onPressed: () {}, child:
+            follow ? Text("Following") : Text("Follow")
         )
       ]),
     ));

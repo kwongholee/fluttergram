@@ -40,8 +40,8 @@ void main() {
           return FeedDetail(id: id);
         },
         '/directmessage/room/{id}': (context, match, settings) => DirectMessageRoom(id: match!.parameters["id"]),
+        '/profile/followlist/{id}': (context, match, settings) => FollowList(user: match!.parameters["id"]),
         '/profile/{id}': (context, match, settings) => Profile(user: match!.parameters["id"]),
-        '/profile/followlist/{id}': (context, match, settings) => FollowList(user: match!.parameters["user"])
       }).get,
       routes: {
         '/': (c) => c.watch<UserProvider>().userInfo["id"] == "" ? Login() : Home(),
