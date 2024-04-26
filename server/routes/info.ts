@@ -3,9 +3,24 @@ const mongoose = require('mongoose');
 import { Request, Response } from 'express';
 var feedModel = require('../model/feed');
 var ObjectId = mongoose.Types.ObjectId;
+var connectNeo4j = require('../config/connectNeo4j');
 
-router.get('/user', (req: Request, res: Response) => {
-  res.send("user info");
+router.get('/user', async (req: Request, res: Response) => {
+  var userId = req.query.id;
+  try {
+    const {driver} = await connectNeo4j();
+    let {records, summary} = await driver.executeQuery(
+      'MATCH (u: User {id: $id}) RETURN u',
+      {id: userId},
+      {database: 'neo4j'}
+    );
+    for(let record of records) {
+      return res.status(200).json(record.get('u').properties);
+    }
+  } catch(err) {
+    console.log(err);
+    return res.status(400);
+  }
 })
 
 router.get('/user/follower', (req: Request, res: Response) => {
