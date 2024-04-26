@@ -1,6 +1,7 @@
 import 'package:client/stores/userProvider.dart';
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
+import 'package:dio/dio.dart';
 
 class Register extends StatefulWidget {
   const Register({Key? key}) : super(key: key);
@@ -10,10 +11,21 @@ class Register extends StatefulWidget {
 }
 
 class _RegisterState extends State<Register> {
+  final dio = Dio();
   var id = "";
   var pw = "";
   var name = "";
   var introduce = "";
+
+  registerUser() async {
+    final response = await dio.post(
+        'http://192.168.35.50:8080/user/new',
+        data: {
+          "id": id,
+          "name": name,
+          "introduce": introduce
+        });
+  }
 
   @override
   Widget build(BuildContext context) {
@@ -82,7 +94,8 @@ class _RegisterState extends State<Register> {
               showDialog(context: context, builder: (context) => NoticeDialog());
             }
             else {
-              context.read<UserProvider>().setProfile(id, pw, name, introduce);
+              registerUser();
+              context.read<UserProvider>().setProfile(id, name, introduce);
               Navigator.pushNamedAndRemoveUntil(context, '/', (route) => false);
             }
           }, child: Text("Register")),

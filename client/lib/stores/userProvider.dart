@@ -4,27 +4,24 @@ import 'package:provider/provider.dart';
 class UserProvider extends ChangeNotifier {
   var userInfo = {
     "id": "",
-    "pw": "",
     "name": "이광호",
     "introduce": "리팡호 ㅎㅎㅎ"
   };
   String direction = "up";
 
-  void tryLogin(a,b) {
-    if(userInfo["id"] != "" && userInfo["pw"] != "") {
-      if(userInfo["id"] != a && userInfo["pw"] != b) return;
+  void logIn(a) {
+    if(userInfo["id"] != "") {
+      if(userInfo["id"] != a) return;
     }
     else {
       userInfo["id"] = a;
-      userInfo["pw"] = b;
     }
     notifyListeners();
   }
-  void setProfile(a,b,c,d) {
+  void setProfile(a,b,c) {
     userInfo["id"] = a;
-    userInfo["pw"] = b;
-    userInfo["name"] = c;
-    userInfo["introduce"] = d;
+    userInfo["name"] = b;
+    userInfo["introduce"] = c;
   }
   void changeDirection(n) {
     direction = n;

@@ -3,6 +3,7 @@ import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/widgets.dart';
 import 'package:provider/provider.dart';
+import 'package:dio/dio.dart';
 
 import '../../stores/userProvider.dart';
 
@@ -14,8 +15,22 @@ class Login extends StatefulWidget {
 }
 
 class _LoginState extends State<Login> {
+  final dio = Dio();
+  String isLogin = "false";
   var id = "";
   var pw = "";
+
+  tryLogin() async {
+    final response = await dio.post('http://192.168.35.50:8080/user/login/check', data: {"id": id});
+    if (mounted) {
+      setState(() {
+        isLogin = response.data["isLogin"].toString();
+      });
+      if (isLogin == "true") {
+        context.read<UserProvider>().logIn(id);
+      }
+    }
+  }
 
   @override
   Widget build(BuildContext context) {
@@ -54,7 +69,7 @@ class _LoginState extends State<Login> {
             )
           ]),),
           TextButton(onPressed: () {
-            context.read<UserProvider>().tryLogin(id, pw);
+            tryLogin();
           }, child: Text("Login")),
           Row(mainAxisAlignment: MainAxisAlignment.spaceEvenly, children: [
             Text("아직 회원가입하지 않으셨다면?"),
