@@ -3,6 +3,7 @@ import 'package:client/stores/userProvider.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/rendering.dart';
 import 'package:provider/provider.dart';
+import 'package:dio/dio.dart';
 
 import 'feed.dart';
 
@@ -14,7 +15,16 @@ class Mainpage extends StatefulWidget {
 }
 
 class _HomeState extends State<Mainpage> {
+  final dio = Dio();
   var scroll = ScrollController();
+  var feed;
+
+  getFeed() async {
+    final response = await dio.get('http://192.168.35.50:8080/info/feed/main');
+    setState(() {
+      feed = response.data;
+    });
+  }
 
   @override
   void initState() {
@@ -26,6 +36,7 @@ class _HomeState extends State<Mainpage> {
         context.read<UserProvider>().changeDirection("up");
       }
     });
+    getFeed();
   }
 
   @override

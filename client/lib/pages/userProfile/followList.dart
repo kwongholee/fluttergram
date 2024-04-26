@@ -3,7 +3,8 @@ import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 
 class FollowList extends StatelessWidget {
-  const FollowList({Key? key}) : super(key: key);
+  const FollowList({Key? key, this.user}) : super(key: key);
+  final user;
 
   @override
   Widget build(BuildContext context) {

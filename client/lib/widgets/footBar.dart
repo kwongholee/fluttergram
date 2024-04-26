@@ -1,10 +1,13 @@
+import 'package:client/stores/userProvider.dart';
 import 'package:flutter/material.dart';
+import 'package:provider/provider.dart';
 
 class FootBar extends StatelessWidget {
   const FootBar({Key? key}) : super(key: key);
 
   @override
   Widget build(BuildContext context) {
+    var id = context.watch<UserProvider>().userInfo["id"];
     return BottomNavigationBar(
       showSelectedLabels: false,
       showUnselectedLabels: false,
@@ -14,7 +17,7 @@ class FootBar extends StatelessWidget {
         } else if(i == 1) {
           Navigator.pushNamed(context, '/search');
         } else {
-          Navigator.pushNamed(context, '/profile');
+          Navigator.pushNamed(context, '/profile/${id.toString()}');
         }
       },
       items: [
