@@ -2,6 +2,7 @@ import 'package:client/stores/feedListProvider.dart';
 import 'package:client/stores/userProvider.dart';
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
+import 'package:dio/dio.dart';
 
 class AddFeed extends StatefulWidget {
   const AddFeed({Key? key}) : super(key: key);
@@ -11,11 +12,12 @@ class AddFeed extends StatefulWidget {
 }
 
 class _AddFeedState extends State<AddFeed> {
-  var info = {"id": 0, "writer": "", "introduce": "", "like": 0};
+  final dio = Dio();
+  var info = {"writer": "", "introduce": "", "like": 0};
+
   @override
   Widget build(BuildContext context) {
     var userId = context.watch<UserProvider>().userInfo["id"]!;
-    var feedId = context.watch<UserFeedListProvider>().feedList.length;
     return Scaffold(
       appBar: AppBar(
         leading: IconButton(icon: Icon(Icons.arrow_back), onPressed: () {Navigator.pop(context);}),
@@ -31,11 +33,11 @@ class _AddFeedState extends State<AddFeed> {
             });
           });}))
         ]),
-        TextButton(onPressed: () {
+        TextButton(onPressed: () async {
           setState(() {
-            info["id"] = feedId;
             info["writer"] = userId;
           });
+          final response = await dio.post('http://192.168.35.50:8080/feed/new', data: info, options: Options(contentType: Headers.jsonContentType));
           context.read<UserFeedListProvider>().addFeed(info);
           Navigator.pushNamedAndRemoveUntil(context, "/", (route) => false);
         }, child: Text("add"))
