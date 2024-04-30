@@ -1,4 +1,4 @@
-var feedModel = require('../model/feed');
+var feedModel = require('../../model/feed');
 import { Request, Response } from 'express';
 
 const addFeed = async (req: Request, res: Response) => {
