@@ -7,8 +7,8 @@ var chatModel = require('../../model/chat');
 const deleteChatroom = async (req: Request, res: Response) => {
   var chatroomId = req.params.id;
   try {
-    await chatroomModel.findByIdAndDelete(chatroomId);
-    await chatModel.deleteMany({_id: new ObjectId(chatroomId)});
+    await chatroomModel.findByIdAndDelete(chatroomId).exec();
+    await chatModel.deleteMany({_id: new ObjectId(chatroomId)}).exec();
     return res.status(200);
   } catch(err) {
     console.log(err);

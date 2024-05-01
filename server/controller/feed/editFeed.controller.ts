@@ -7,7 +7,7 @@ const editFeed = async (req: Request, res: Response) => {
   try {
     await feedModel.findByIdAndUpdate(id, {
       introduce: content.introduce
-    });
+    }).exec();
     return res.status(200);
   } catch(err) {
     console.log(err);

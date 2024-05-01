@@ -4,7 +4,7 @@ import { Request, Response } from 'express';
 const deleteFeed = async (req: Request, res: Response) => {
   var id = req.params.id;
   try {
-    await feedModel.findByIdAndDelete(id);
+    await feedModel.findByIdAndDelete(id).exec();
     return res.status(200);
   } catch(err) {
     console.log(err);
